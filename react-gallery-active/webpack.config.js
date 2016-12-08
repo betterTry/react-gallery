@@ -52,7 +52,7 @@ module.exports = {
       test: /\.css$/,
       loader: 'style-loader!css-loader!autoprefixer-loader?{browsers:["last 2 version"]}'
     }, {
-      test: /\.json/,
+      test: /\.json$/,
       loader: 'json-loader'
     },{
       test: /\.(png|jpg|woff|woff2)$/,
