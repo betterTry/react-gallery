@@ -28,7 +28,7 @@ function getRangeRandom(low, high){
 }
 //获取 0-30度 之间的一个任意正负值;
 function get30DegRandom(){
-   return (Math.random() > 0.5 ? '' : '-' + Math.floor(Math.random() * 30));
+   return ((Math.random() > 0.5 ? '' : '-') + Math.floor(Math.random() * 30));
 }
 
 var ImgFigure = React.createClass({
@@ -85,6 +85,42 @@ var ImgFigure = React.createClass({
         );
     }
 });
+
+var ControllerUnit = React.createClass({
+    handleClick: function(e){
+
+        //如果点击的是当前正在选中态的按钮，则翻转图片，否则将选中的图片居中;
+        if(this.props.arrange.isCenter){
+            this.props.inverse();
+        }else{
+            this.props.center();
+        }
+
+        e.stopPropagation();
+        e.preventDefault();
+    },
+    render: function(){
+        var controllerUnitClassName = 'controller-unit';
+
+        //如果对应的是居中的图片，显示控制按钮的居中态;
+        if(this.props.arrange.isCenter){
+            controllerUnitClassName += ' is-center';
+
+            //如果同时对应的是翻转图片, 显示控制按钮的翻转态;
+            if(this.props.arrange.isInverse){
+                controllerUnitClassName += ' is-inverse';
+            }
+        }
+
+        return (
+            <span>
+                <span className={controllerUnitClassName} onClick={this.handleClick}>
+                </span>
+            </span>
+        );
+    }
+});
+
 var ReactGalleryApp = React.createClass({
     Constant: {
         centerPos: {
@@ -136,7 +172,7 @@ var ReactGalleryApp = React.createClass({
             imgsArrangeTopArr = [],
             topImgNum = Math.floor(Math.random() * 2),//取一个或者不取;
             topImgSpliceIndex = 0,
-            imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex, 1);
+            imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex, 1);//去除center;
 
             /*首先居中 centerIndex 的图片,
              *居中的centerIndex 的图片不需要旋转;
@@ -150,7 +186,7 @@ var ReactGalleryApp = React.createClass({
 
             //取出要布局上侧的图片的状态信息;
             topImgSpliceIndex = Math.floor(Math.random() * (imgsArrangeArr.length - topImgNum));
-            imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex, topImgNum);
+            imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex, topImgNum);//去除上侧;
 
             //布局位于上侧的图片;
             imgsArrangeTopArr.forEach(function(value, index){
@@ -184,12 +220,14 @@ var ReactGalleryApp = React.createClass({
                 };
             }
 
+            //把位于上侧的数组添加进来;
             if(imgsArrangeTopArr && imgsArrangeTopArr[0]){
                 imgsArrangeArr.splice(topImgSpliceIndex, 0, imgsArrangeTopArr[0]);
             }
-
+            //把位于中心的数组添加进来;
             imgsArrangeArr.splice(centerIndex, 0, imgsArrangeCenterArr[0]);
 
+            //更新状态;
             this.setState({
                 imgsArrangeArr: imgsArrangeArr
             });
@@ -254,6 +292,7 @@ var ReactGalleryApp = React.createClass({
         this.Constant.vPosRange.x[0] = halfStageW - imgW;
         this.Constant.vPosRange.x[1] = halfStageW;
 
+        //让第0个居中;
         this.rearrange(0);
     },
     render: function() {
@@ -274,6 +313,8 @@ var ReactGalleryApp = React.createClass({
             }
 
             imgFigures.push(<ImgFigure data={value} key={index} ref={'imgFigure' + index} arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
+
+            controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
         }.bind(this));
     return (
         <section className="stage" ref="stage">
