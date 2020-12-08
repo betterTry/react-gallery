@@ -54,8 +54,8 @@ module.exports = {
     }, {
       test: /\.json$/,
       loader: 'json-loader'
-    },{
-      test: /\.(png|jpg|woff|woff2|eot|svg|ttf)$/,
+    }, {
+      test: /\.(png|jpg|woff|woff2|eot|svg|ttf|jpeg)$/,
       loader: 'url-loader?limit=8192'
     }]
   },

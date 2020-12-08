@@ -1,11 +1,12 @@
 @font-face{
-  font-family: "icons-turn-arrow";
-  src: url("../font/icon/turn-arrow.eot");/*IE9*/
-  src: url("../font/icon/turn-arrow.eot") format('embedded-opentype'),
-       url('../font/icon/turn-arrow.woff') format('woff'),
-       url('../font/icon/turn-arrow.ttf') format('truetype'),
-       url('../font/icon/turn-arrow.svg') format('svg');
+  font-family: "iconfont";
+  src: url("./font/iconfont.eot");/*IE9*/
+  src: url("./font/iconfont.eot") format('embedded-opentype'),
+       url('./font/iconfont.woff') format('woff'),
+       url('./font/iconfont.ttf') format('truetype'),
+       url('./font/iconfont.svg') format('svg');
 }
+
 html , body{
   width: 100%;
   height: 100%;
@@ -122,8 +123,8 @@ html , body{
 
         &::after{
           color: #fff;
-          font-family: 'icons-turn-arrow';
-          content: "\e600";
+          font-family: 'iconfont';
+          content: "\e60b";
           line-height: 30px;
           -webkit-font-smoothing: antialiased;
           -webkit-text-stroke-width: 0.2px;
